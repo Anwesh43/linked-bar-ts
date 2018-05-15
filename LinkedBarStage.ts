@@ -5,6 +5,10 @@ class LinkedBarStage {
 
     context : CanvasRenderingContext2D
 
+    linkedBar : LinkedBar = new LinkedBar()
+
+    animator : Animator = new Animator()
+
     constructor() {
         this.initCanvas()
     }
@@ -19,11 +23,19 @@ class LinkedBarStage {
     render() {
         this.context.fillStyle = '#212121'
         this.context.fillRect(0, 0, w, h)
+        this.linkedBar.draw(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.linkedBar.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.linkedBar.update(() => {
+                        this.animator.stop()
+                    })
+                })
+            })
         }
     }
 
