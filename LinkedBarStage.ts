@@ -65,6 +65,7 @@ class State {
                 this.j -= this.dir
                 this.dir = 0
                 this.prevScale = this.scales[this.j]
+                stopcb()
             }
         }
     }
@@ -122,9 +123,9 @@ class BarNode {
         context.save()
         context.translate(gap * this.i, h/2)
         context.fillStyle = '#2ecc71'
-        context.fillRect((gap / 2) * this.state.scales[1], -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
+        context.fillRect((gap / 2) * this.state.scales[1], -h_gap/2, (gap / 2) * this.state.scales[0] - (gap / 2) * this.state.scales[1], h_gap)
         context.fillStyle = '#e74c3c'
-        context.fillRect(gap/2 + (gap / 2) * this.state.scales[2], -h_gap/2, (gap / 2) * this.state.scales[1], h_gap)
+        context.fillRect(gap/2 + (gap / 2) * this.state.scales[2], -h_gap/2, (gap / 2) * this.state.scales[1] - (gap / 2) * this.state.scales[2], h_gap)
         context.restore()
     }
 
