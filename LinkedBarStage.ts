@@ -122,9 +122,9 @@ class BarNode {
         context.save()
         context.translate(gap * this.i, h/2)
         context.fillStyle = '#2ecc71'
-        context.fillRect(0, -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
+        context.fillRect((gap / 2) * this.state.scales[1], -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
         context.fillStyle = '#e74c3c'
-        context.fillRect(gap/2, -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
+        context.fillRect(gap/2 + (gap / 2) * this.state.scales[2], -h_gap/2, (gap / 2) * this.state.scales[1], h_gap)
         context.restore()
     }
 
