@@ -124,7 +124,7 @@ class BarNode {
         this.state.startUpdating(startcb)
     }
 
-    getNext(dir, cb) {
+    getNext(dir : number, cb : Function) {
         var curr : BarNode = this.prev
         if (dir == 1) {
             curr = this.next
@@ -134,5 +134,29 @@ class BarNode {
         }
         cb()
         return this
+    }
+}
+
+class LinkedBar {
+
+    curr : BarNode = new BarNode(0)
+
+    dir : number = 1
+
+    draw(context : CanvasRenderingContext2D) {
+        this.curr.draw(context)
+    }
+
+    update(stopcb) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            stopcb()
+        })
+    }
+
+    startUpdating(startcb : Function) {
+        this.curr.startUpdating(startcb)
     }
 }
