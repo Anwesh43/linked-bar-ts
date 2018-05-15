@@ -1,4 +1,4 @@
-const w : number = window.innerWidth, h : number = window.innerHeight
+const w : number = window.innerWidth, h : number = window.innerHeight, BAR_NODES = 5
 class LinkedBarStage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
@@ -83,5 +83,56 @@ class Animator {
             this.animated = false
             clearInterval(this.interval)
         }
+    }
+}
+
+class BarNode {
+
+    state : State = new State()
+
+    next : BarNode
+
+    prev : BarNode
+
+    constructor(private i : number) {
+        this.addNeighbor()
+    }
+
+    addNeighbor() {
+        if (this.i < BAR_NODES - 1) {
+            this.next = new BarNode(this.i + 1)
+            this.next.prev = this
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        const gap : number = w / BAR_NODES, h_gap = h / 10
+        context.save()
+        context.translate(gap * this.i, h/2)
+        context.fillStyle = '#2ecc71'
+        context.fillRect(0, -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
+        context.fillStyle = '#e74c3c'
+        context.fillRect(gap/2, -h_gap/2, (gap / 2) * this.state.scales[0], h_gap)
+        context.restore()
+    }
+
+    update(stopcb : Function) {
+        this.state.update(stopcb)
+    }
+
+    startUpdating(startcb : Function) {
+        this.state.startUpdating(startcb)
+    }
+
+    getNext(dir, cb) {
+        var curr : BarNode = this.prev
+        if (dir == 1) {
+            curr = this.next
+        }
+        if (curr) {
+            return curr
+        }
+        cb()
+        return this
     }
 }
